@@ -4,6 +4,8 @@
         <title>Simple Map</title>
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <meta charset="utf-8">
+        <link rel="stylesheet" href="public/css/normalize.css">
+        <link rel="stylesheet" href="public/css/foundation.min.css">
         <style>
             html, body, #map-canvas {
                 height: 100%;
@@ -11,11 +13,24 @@
                 padding: 0px
             }
         </style>
+        <script src="public/js/modernizr.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-        <!-- // <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> -->
-        <script src="_compiled.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="public/js/_compiled.js"></script>
     </head>
     <body>
         <div id="map-canvas"></div>
+        <form>
+            <div class="row">
+                <div class="small-12 columns">
+                    <label>Place Title
+                        <input type="text" />
+                    </label>
+                    <a href="javascript:void(0)" class="js-add-place button expand">Add Place</a>
+                </div>
+            </div>
+        </form>
+        <script src="public/js/foundation.min.js"></script>
+        <script>$(document).foundation();</script>
     </body>
 </html>
