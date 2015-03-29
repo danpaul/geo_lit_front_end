@@ -9,3 +9,12 @@
     + 
 
 - "cricles": https://developers.google.com/maps/documentation/javascript/examples/circle-simple
+
+
+
+// npm run watch-js
+
+// browserify ./public/js/main.js -o ./public/js/bundle.js
+// browserify ./public/js/main.js -o ./public/js/bundle.js --debug
+
+// python -m SimpleHTTPServer 8080

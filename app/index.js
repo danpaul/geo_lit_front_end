@@ -1,43 +1,19 @@
 // npm run watch-js
-
-// browserify ./public/js/main.js -o ./public/js/bundle.js
-// browserify ./public/js/main.js -o ./public/js/bundle.js --debug
-
-var geoLit = {}
+// python -m SimpleHTTPServer 8080
 
 /*******************************************************************************
 
-                    DATA
+                    
 
 *******************************************************************************/
 
-geoLit.map
-geoLit.currentPosition
-geoLit.defaults = {
-    zoomLevel: 12
-}
+var MAP_ID = 'map-canvas'
 
-/*******************************************************************************
+var geoLit = require('./lib/geo_lit')
 
-                    FUNCTIONS
-
-*******************************************************************************/
-
-geoLit.init = function(coordinates) {
-    var mapOptions = {
-        zoom: geoLit.defaults.zoomLevel,
-        center: new google.maps.LatLng(coordinates.latitude,
-                                       coordinates.longitude)
-    };
-    geoLit.map = new google.maps.Map(document.getElementById('map-canvas'),
-                                     mapOptions);
-}
-
-geoLit.updateLocation = function(position){
-    google.maps.event.addDomListener(window, 'load', geoLit.init)
-    geoLit.init(position.coords)
-}
-
-navigator.geolocation.getCurrentPosition(geoLit.updateLocation)
-
-// geoLit.init()
+geoLit.init(MAP_ID, function(err){
+    if( err ){ console.log(err) }
+    else{
+        console.log('map initialzed')
+    }
+})
