@@ -1,0 +1,11 @@
+- custom marker + proper error handling: https://developers.google.com/maps/documentation/javascript/examples/map-geolocation
+
+- click event handler
+
+- check out marker class
+
+- marker examples: https://developers.google.com/maps/documentation/javascript/examples/marker-simple
+    + https://developers.google.com/maps/documentation/javascript/examples/marker-symbol-custom
+    + 
+
+- "cricles": https://developers.google.com/maps/documentation/javascript/examples/circle-simple

@@ -1,0 +1,29 @@
+{
+  "name": "geo_lit_app",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "jquery": "^2.1.3",
+    "uniq": "^1.0.1"
+  },
+  "devDependencies": {
+    "browserify": "^9.0.3",
+    "watchify": "^2.6.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-js": "browserify ./app/index.js -o ./_compiled.js",
+    "watch-js": "watchify ./app/index.js -o ./_compiled.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danpaul/geo_lit_front_end.git"
+  },
+  "author": "Dan Breczinski <pt2323@gmail.com> (http://dpb.me/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danpaul/geo_lit_front_end/issues"
+  },
+  "homepage": "https://github.com/danpaul/geo_lit_front_end"
+}
