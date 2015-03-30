@@ -2,6 +2,8 @@
 // npm run watch-js
 // python -m SimpleHTTPServer 8080
 
+var TEST_USER_ID = 111
+
 /*******************************************************************************
 
                     SETUP
@@ -27,10 +29,23 @@ geoLit.init(MAP_ID, function(err){
 *******************************************************************************/
 
 $(document).ready(function(){
-    // console.log('foo')
+
     $('.js-add-place').click(function(e){
+
         geoLit.getPosition(function(err, position){
-            place.add()
+
+            var point = {}
+            point.title = $('.js-add-place-form').find("[name='title']").val()
+            point.user = TEST_USER_ID
+            point.location = position
+
+            place.add(point, function(err){
+                if( err ){
+                    console.log(err)
+                    return
+                }
+                console.log('success')
+            })
         })
     })
 })
@@ -153,12 +168,12 @@ module.exports = geoLit
 var place = {}
 var config = require('../../config.js')
 
-place.add = function(userId, title, positionObject, callbackIn){
+place.add = function(positionData, callbackIn){
 
     $.ajax({
         type: "POST",
         url: config.geoLitEndpoint + '/position',
-        data: {test: 'foo'},
+        data: positionData,
         success: function(data){
             console.log(data)
         },
