@@ -36,7 +36,18 @@ $(document).ready(function(){
             var point = {}
             point.title = $('.js-add-place-form').find("[name='title']").val()
             point.user = TEST_USER_ID
-            point.location = position
+            point.location = [position.longitude, position.latitude]
+
+// console.log(point)
+// return
+    /**
+        locationData should look like this
+        {
+            title: 'some title',
+            user: 12233,
+            location: [2.17403, 41.40338] // longitude, latitude
+        }
+    */
 
             place.add(point, function(err){
                 if( err ){
