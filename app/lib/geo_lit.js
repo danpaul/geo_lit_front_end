@@ -1,11 +1,14 @@
 var geoLit = {}
 
+var place = require('./place')
+
 /*******************************************************************************
 
                     DATA
 
 *******************************************************************************/
 
+var DEFAULT_RANGE = 5 // distance in KM
 var TEST_MOVE = false
 var TEST_MAX_DISTANCE = 0.1
 
@@ -69,6 +72,17 @@ geoLit.updatePosition = function(callbackIn){
     }, callbackIn)
 }
 
+geoLit.updatePlaces = function(callbackIn){
+
+    place.findNear({latitude: geoLit.currentLatitude,
+                    longitude: geoLit.currentLongitude,
+                    range: DEFAULT_RANGE},
+                   function(err, places){
+
+
+    })
+}
+
 geoLit.updateUserMarker = function(){
     // delete existing marker
     if( geoLit.userMarker !== null ){ geoLit.userMarker.setMap(null) }
@@ -95,7 +109,10 @@ geoLit.recenterMap = function(){
     geoLit.map.panTo(center);
 }
 
+// TODO: add function to check if points should get updated
 geoLit.intervalCallback = function(){
+
+    var updatePlaces = true
     geoLit.updatePosition(function(err){
 
         if( TEST_MOVE ){
@@ -108,6 +125,11 @@ geoLit.intervalCallback = function(){
             return
         }
         geoLit.updateUserMarker()
+        if( updatePlaces ){
+            geoLit.updatePlaces(function(err){
+                if( err ){ console.log(err) }
+            })
+        }
     })
 }
 

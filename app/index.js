@@ -38,17 +38,6 @@ $(document).ready(function(){
             point.user = TEST_USER_ID
             point.location = [position.longitude, position.latitude]
 
-// console.log(point)
-// return
-    /**
-        locationData should look like this
-        {
-            title: 'some title',
-            user: 12233,
-            location: [2.17403, 41.40338] // longitude, latitude
-        }
-    */
-
             place.add(point, function(err){
                 if( err ){
                     console.log(err)

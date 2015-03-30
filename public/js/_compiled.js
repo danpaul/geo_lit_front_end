@@ -39,17 +39,6 @@ $(document).ready(function(){
             point.user = TEST_USER_ID
             point.location = [position.longitude, position.latitude]
 
-// console.log(point)
-// return
-    /**
-        locationData should look like this
-        {
-            title: 'some title',
-            user: 12233,
-            location: [2.17403, 41.40338] // longitude, latitude
-        }
-    */
-
             place.add(point, function(err){
                 if( err ){
                     console.log(err)
@@ -63,12 +52,15 @@ $(document).ready(function(){
 },{"./lib/geo_lit":2,"./lib/place":3}],2:[function(require,module,exports){
 var geoLit = {}
 
+var place = require('./place')
+
 /*******************************************************************************
 
                     DATA
 
 *******************************************************************************/
 
+var DEFAULT_RANGE = 5 // distance in KM
 var TEST_MOVE = false
 var TEST_MAX_DISTANCE = 0.1
 
@@ -132,6 +124,17 @@ geoLit.updatePosition = function(callbackIn){
     }, callbackIn)
 }
 
+geoLit.updatePlaces = function(callbackIn){
+
+    place.findNear({latitude: geoLit.currentLatitude,
+                    longitude: geoLit.currentLongitude,
+                    range: DEFAULT_RANGE},
+                   function(err, places){
+
+
+    })
+}
+
 geoLit.updateUserMarker = function(){
     // delete existing marker
     if( geoLit.userMarker !== null ){ geoLit.userMarker.setMap(null) }
@@ -158,7 +161,10 @@ geoLit.recenterMap = function(){
     geoLit.map.panTo(center);
 }
 
+// TODO: add function to check if points should get updated
 geoLit.intervalCallback = function(){
+
+    var updatePlaces = true
     geoLit.updatePosition(function(err){
 
         if( TEST_MOVE ){
@@ -171,11 +177,16 @@ geoLit.intervalCallback = function(){
             return
         }
         geoLit.updateUserMarker()
+        if( updatePlaces ){
+            geoLit.updatePlaces(function(err){
+                if( err ){ console.log(err) }
+            })
+        }
     })
 }
 
 module.exports = geoLit
-},{}],3:[function(require,module,exports){
+},{"./place":3}],3:[function(require,module,exports){
 var place = {}
 var config = require('../../config.js')
 
@@ -184,6 +195,24 @@ place.add = function(positionData, callbackIn){
     $.ajax({
         type: "POST",
         url: config.geoLitEndpoint + '/position',
+        data: positionData,
+        success: function(data){
+            console.log(data)
+        },
+        error: function(err){
+            console.log(err)
+        },
+        dataType: 'JSON'
+    });
+
+}
+
+
+place.findNear = function(positionData, callbackIn){
+
+    $.ajax({
+        type: "GET",
+        url: config.geoLitEndpoint + '/positions-near',
         data: positionData,
         success: function(data){
             console.log(data)
