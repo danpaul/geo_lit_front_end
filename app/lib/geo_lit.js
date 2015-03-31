@@ -1,5 +1,6 @@
 var geoLit = {}
 
+var _ = require('underscore')
 var place = require('./place')
 
 /*******************************************************************************
@@ -19,6 +20,7 @@ geoLit.mapFollow = true
 geoLit.intervalId = null
 geoLit.intervalTime = 1000 * 5 //10 seconds
 geoLit.mapId = null
+geoLit.placeMarkers = {}
 geoLit.userMarker = null
 geoLit.zoomLevel = 12
 
@@ -72,6 +74,35 @@ geoLit.updatePosition = function(callbackIn){
     }, callbackIn)
 }
 
+
+// asdf
+geoLit.addPlacesToMap = function(places){
+
+    _.each(places, function(place){
+
+        // set new marker
+        var latLang = new google.maps.LatLng(place.location[1],
+                                             place.location[0]);
+
+        
+        geoLit.placeMarkers[place._id] =  new google.maps.Marker({
+            position: latLang,
+            map: geoLit.map,
+            title: 'Current Position',
+            geoLit: {_id: place._id}
+        });
+
+  google.maps.event.addListener(geoLit.placeMarkers[place._id],
+                                'click',
+                                function(){
+// asdf asdf
+console.log(this.geoLit)
+
+  });
+
+    })
+}
+
 geoLit.updatePlaces = function(callbackIn){
 
     place.findNear({latitude: geoLit.currentLatitude,
@@ -79,6 +110,12 @@ geoLit.updatePlaces = function(callbackIn){
                     range: DEFAULT_RANGE},
                    function(err, places){
 
+        // find any markers not currently on the map
+        var newPlaces = _.filter(places, function(place){
+            return(typeof(geoLit.placeMarkers[place._id]) === 'undefined')
+        })
+// console.log(geoLit.placeMarkers)
+        geoLit.addPlacesToMap(newPlaces)
 
     })
 }
@@ -87,9 +124,11 @@ geoLit.updateUserMarker = function(){
     // delete existing marker
     if( geoLit.userMarker !== null ){ geoLit.userMarker.setMap(null) }
 
+
+// asdf asdf asdf
     // set new marker
-    var latLang = new google.maps.LatLng(geoLit.currentLatitude,
-                                         geoLit.currentLongitude);
+    var latLang = new google.maps.LatLng(geoLit.currentLatitude + .002,
+                                         geoLit.currentLongitude + .002);
 
     geoLit.userMarker = new google.maps.Marker({
       position: latLang,

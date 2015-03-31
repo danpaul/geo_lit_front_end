@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "underscore": "^1.8.2",
     "uniq": "^1.0.1"
   },
   "devDependencies": {
