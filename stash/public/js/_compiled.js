@@ -48,6 +48,27 @@ $(document).ready(function(){
             })
         })
     })
+
+    $('.js-add-comment').click(function(e){
+        
+
+        // geoLit.getPosition(function(err, position){
+
+        //     var point = {}
+        //     point.title = $('.js-add-place-form').find("[name='title']").val()
+        //     point.user = TEST_USER_ID
+        //     point.location = [position.longitude, position.latitude]
+
+        //     place.add(point, function(err){
+        //         if( err ){
+        //             console.log(err)
+        //             return
+        //         }
+        //         console.log('success')
+        //     })
+        // })
+    })
+
 })
 },{"./lib/geo_lit":2,"./lib/place":3}],2:[function(require,module,exports){
 var geoLit = {}
