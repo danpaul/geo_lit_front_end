@@ -1,20 +1,36 @@
-var services = {}
+var place = {}
 var config = require('../../config.js')
-var debug = require('./debug');
 
-var SERVER_ERROR = 'A server error occurred.';
+var SERVER_ERROR = new Error('A server error occurred.')
 
-services.add = function(positionData, callbackIn){
+place.add = function(positionData, callbackIn){
+
     $.ajax({
         type: "POST",
         url: config.geoLitEndpoint + '/position',
         data: positionData,
+        success: function(data){ callbackIn() },
+        error: function(err){
+            console.log(err)
+            callbackIn(SERVER_ERROR)
+        },
+        dataType: 'JSON'
+    });
+
+}
+
+
+place.findNear = function(positionData, callbackIn){
+
+    $.ajax({
+        type: "GET",
+        url: config.geoLitEndpoint + '/positions-near',
+        data: positionData,
         success: function(data){
-            if( data.status === 'success' ){
-                callbackIn();
-            } else {
-                callbackIn(data.errorMessage);
-            }
+            if( typeof(data.success) === 'undefined' ||
+                !data.success ){
+                callbackIn(new Error(data.errorMessage))
+            } else { callbackIn(null, data.data) }
         },
         error: function(err){
             console.log(err)
@@ -22,26 +38,7 @@ services.add = function(positionData, callbackIn){
         },
         dataType: 'JSON'
     });
+
 }
 
-
-services.findNear = function(positionData, callbackIn){
-    $.ajax({
-        type: "GET",
-        url: config.geoLitEndpoint + '/positions-near',
-        data: positionData,
-        success: function(data){
-            if( typeof(data.status) === 'undefined' ||
-                data.status !== 'success' ){
-                callbackIn(data.errorMessage)
-            } else { callbackIn(null, data.data) }
-        },
-        error: function(err){
-            debug.log(err)
-            callbackIn(SERVER_ERROR)
-        },
-        dataType: 'JSON'
-    });
-}
-
-module.exports = services;
+module.exports = place
