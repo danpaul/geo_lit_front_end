@@ -189,16 +189,19 @@ geoLit.addPlace = function(title, callback){
         return;
     }
 
-    geoLit.getPosition(function(err, place){
+    geoLit.getPosition(function(err, location){
         if( err ){
             callback('Unable to find location.');
             return;
         }
 
+        var placeObject = {};
+        placeObject.location = [location.longitude, location.latitude];
+
 // console.log(place);
-        place.title = title;
-        place.user = user.id;
-        services.add(place, function(err, resp){
+        placeObject.title = title;
+        placeObject.user = user.id;
+        services.add(placeObject, function(err, resp){
 // console.log('asdfasdfasdf')
 // console.log(resp);
 // console.log(err);
